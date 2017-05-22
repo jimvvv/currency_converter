@@ -88,41 +88,84 @@ function getImageUrl(searchTerm, callback, errorCallback) {
   x.send();
 }
 
-function convert(){
+function convert() {
   var srcCurrency = document.getElementById("from").value;
   var dstCurrency = document.getElementById("to").value;
   var amount = document.getElementById("amount").value;
-  alert(srcCurrency);
+  console.log(srcCurrency + ' ' + dstCurrency + ' ' + amount);
+
+  var srcExchangeRate = 0;
+  var dstExchangeRate;
+  chrome.storage.local.get('currency', function(obj) {
+    srcExchangeRate = obj.currency[srcCurrency];
+    dstExchangeRate = obj.currency[dstCurrency];
+  });
+  return Number(dstExchangeRate) / Number(srcExchangeRate) * Number(amount);
 }
+
+function calculation(a, b, c) {
+  return 
+}
+
+
+function saveCurrency(currencyList) {
+  var dataObj = {};
+  dataObj['currency'] = currencyList;
+  chrome.storage.local.set(dataObj, function() {
+    console.log(dataObj);
+    var test = chrome.storage.local.get('currency', function(obj) {
+      console.log(obj.currency.USD);
+    });
+  });
+}
+
+function clear() {
+  chrome.storage.local.clear(function() {
+    console.log('Clear successful!');
+  });
+}
+
 
 function renderStatus(statusText) {
   document.getElementById('status').textContent = statusText;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  getCurrentTabUrl(function(url) {
-    // Put the image URL in Google search.
-    renderStatus('Performing Google Image search for ' + url);
+  // getCurrentTabUrl(function(url) {
+  //   // Put the image URL in Google search.
+  //   renderStatus('Performing Google Image search for ' + url);
 
-    getImageUrl(url, function(imageUrl, width, height) {
+  //   getImageUrl(url, function(imageUrl, width, height) {
 
-      renderStatus('Search term: ' + url + '\n' +
-          'Google image search result: ' + imageUrl);
-      var imageResult = document.getElementById('image-result');
-      // Explicitly set the width/height to minimize the number of reflows. For
-      // a single image, this does not matter, but if you're going to embed
-      // multiple external images in your page, then the absence of width/height
-      // attributes causes the popup to resize multiple times.
-      imageResult.width = width;
-      imageResult.height = height;
-      imageResult.src = imageUrl;
-      imageResult.hidden = false;
+  //     renderStatus('Search term: ' + url + '\n' +
+  //         'Google image search result: ' + imageUrl);
+  //     var imageResult = document.getElementById('image-result');
+  //     // Explicitly set the width/height to minimize the number of reflows. For
+  //     // a single image, this does not matter, but if you're going to embed
+  //     // multiple external images in your page, then the absence of width/height
+  //     // attributes causes the popup to resize multiple times.
+  //     imageResult.width = width;
+  //     imageResult.height = height;
+  //     imageResult.src = imageUrl;
+  //     imageResult.hidden = false;
 
-    }, function(errorMessage) {
-      renderStatus('Cannot display image. ' + errorMessage);
-    });
+  //   }, function(errorMessage) {
+  //     renderStatus('Cannot display image. ' + errorMessage);
+  //   });
+  // });
+
+
+  var mockJson = {ignoreKey:"ignoreValue", currency:{USD:1, CNY:6.88}};
+  document.getElementById('save').addEventListener('click', function() {
+    saveCurrency(mockJson.currency);
   });
 
-  document.querySelector('button').addEventListener('click', convert);
+  document.getElementById('calculate').addEventListener('click', function() {
+    var result = convert();
+    console.log(result);
+  });
 
+  document.getElementById('clear').addEventListener('click', function() {
+    clear();
+  });
 });
