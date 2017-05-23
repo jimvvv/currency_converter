@@ -99,12 +99,13 @@ function convert() {
   chrome.storage.local.get('currency', function(obj) {
     srcExchangeRate = obj.currency[srcCurrency];
     dstExchangeRate = obj.currency[dstCurrency];
-  });
-  return Number(dstExchangeRate) / Number(srcExchangeRate) * Number(amount);
+    calculation(srcExchangeRate, dstExchangeRate, amount);
+  });  
 }
 
-function calculation(a, b, c) {
-  return 
+function calculation(srcRate, dstRate, amount) {
+  var amount_after = document.getElementById("amount_after");
+  amount_after.value = dstRate / srcRate * amount;
 }
 
 
