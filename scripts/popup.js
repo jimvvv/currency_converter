@@ -91,7 +91,7 @@ function getImageUrl(searchTerm, callback, errorCallback) {
 function convert() {
   var srcCurrency = document.getElementById("from").value;
   var dstCurrency = document.getElementById("to").value;
-  var amount = document.getElementById("amount").value;
+  var amount = document.getElementById("defaultFrom").value;
   console.log(srcCurrency + ' ' + dstCurrency + ' ' + amount);
 
   var srcExchangeRate = 0;
@@ -104,7 +104,7 @@ function convert() {
 }
 
 function calculation(srcRate, dstRate, amount) {
-  var amount_after = document.getElementById("amount_after");
+  var amount_after = document.getElementById("defaultTo");
   amount_after.value = dstRate / srcRate * amount;
 }
 
@@ -155,6 +155,20 @@ document.addEventListener('DOMContentLoaded', function() {
   //   });
   // });
 
+  $("input").focusin(function(){
+    $("input").each(function(){
+      if($(this).is(":focus")){
+        $(this).prop("id", "from");
+      }
+      else{
+        $(this).prop("id", "to");
+      }
+    });
+  });
+
+  $("#defaultFrom").keyup(function(){
+    convert();
+  });
 
   var mockJson = {ignoreKey:"ignoreValue", currency:{USD:1, CNY:6.88}};
   document.getElementById('save').addEventListener('click', function() {

@@ -27,17 +27,18 @@
       -
       - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
     -->
-    <script src="popup.js"></script>
+    <script src="scripts/jquery-3.2.1.min.js"></script>
+    <script src="scripts/popup.js"></script>
   </head>
   <body>
     <div id="status"></div>
     <img id="image-result" hidden>
     <div>
-      <input id="amount" type="text" />
+      <input id="defaultFrom" type="text" />
       <select id="from"><option>CNY</option><option>USD</option></select>
     </div>
     <div>
-      <input id="amount_after" type="text" />
+      <input id="defaultTo" type="text" />
       <select id="to"><option>CNY</option><option>USD</option></select>
     </div>
     <div><button id="clear">Clear</button></div>
