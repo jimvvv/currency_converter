@@ -34,16 +34,19 @@
     <div id="status"></div>
     <img id="image-result" hidden>
     <div>
-      <input id="defaultFrom" type="text" />
-      <select id="from"><option>CNY</option><option>USD</option></select>
+      <input id="defaultFrom" type="text" class="from"/>
+      <select id="from" class="from"></select>
+        <div id="myDropdown" class="dropdown-content">
+    <input type="text" placeholder="Search.." id="myInput">
+    <div id="testDiv"></div>
+  </div>
     </div>
     <div>
       <input id="defaultTo" type="text" />
-      <select id="to"><option>CNY</option><option>USD</option></select>
+      <select id="to"></select>
     </div>
     <div><button id="clear">Clear</button></div>
     <div><button id="save">Save</button></div>
-    <div><button id="calculate">Calculate</button></div>
   </body>
   </html>
 
